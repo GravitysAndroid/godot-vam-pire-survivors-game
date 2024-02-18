@@ -1,0 +1,97 @@
+[gd_scene load_steps=6 format=3 uid="uid://cr5367nbi7kpd"]
+
+[ext_resource type="PackedScene" uid="uid://vqi6oborkwnt" path="res://player.tscn" id="1_1ve6y"]
+[ext_resource type="Script" path="res://survivors-game.gd" id="1_xm3b8"]
+[ext_resource type="PackedScene" uid="uid://ca8iy10l7m71b" path="res://mob.tscn" id="2_dp7el"]
+[ext_resource type="PackedScene" uid="uid://2esdd32deywf" path="res://pine_tree.tscn" id="2_wo4qu"]
+
+[sub_resource type="Curve2D" id="Curve2D_jhake"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, -150, -190, 0, 0, 0, 0, 2087, -188, 0, 0, 0, 0, 2092, 1150, 0, 0, 0, 0, -148, 1143, 0, 0, 0, 0, -148, -190)
+}
+point_count = 5
+
+[node name="Game" type="Node2D"]
+y_sort_enabled = true
+script = ExtResource("1_xm3b8")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+layer = -1
+
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer"]
+offset_right = 1952.0
+offset_bottom = 1112.0
+
+[node name="Player" parent="." instance=ExtResource("1_1ve6y")]
+position = Vector2(989, 548)
+
+[node name="Path2D" type="Path2D" parent="Player"]
+position = Vector2(-989, -548)
+curve = SubResource("Curve2D_jhake")
+
+[node name="PathFollow2D" type="PathFollow2D" parent="Player/Path2D"]
+unique_name_in_owner = true
+position = Vector2(-150, -190)
+rotation = 0.000894054
+
+[node name="Mob" parent="." instance=ExtResource("2_dp7el")]
+position = Vector2(166, 606)
+
+[node name="PineTree" parent="." instance=ExtResource("2_wo4qu")]
+position = Vector2(286, 330)
+
+[node name="PineTree2" parent="." instance=ExtResource("2_wo4qu")]
+position = Vector2(851, 935)
+
+[node name="PineTree3" parent="." instance=ExtResource("2_wo4qu")]
+position = Vector2(1576, 864)
+
+[node name="PineTree4" parent="." instance=ExtResource("2_wo4qu")]
+position = Vector2(1307, 256)
+
+[node name="PineTree5" parent="." instance=ExtResource("2_wo4qu")]
+position = Vector2(1417, 183)
+
+[node name="PineTree6" parent="." instance=ExtResource("2_wo4qu")]
+position = Vector2(1420, 324)
+
+[node name="PineTree7" parent="." instance=ExtResource("2_wo4qu")]
+position = Vector2(291, 944)
+
+[node name="PineTree8" parent="." instance=ExtResource("2_wo4qu")]
+position = Vector2(721, 449)
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 0.3
+autostart = true
+
+[node name="GameOver" type="CanvasLayer" parent="."]
+unique_name_in_owner = true
+visible = false
+
+[node name="ColorRect" type="ColorRect" parent="GameOver"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.501961)
+
+[node name="Label" type="Label" parent="GameOver/ColorRect"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -43.5
+offset_top = -11.5
+offset_right = 43.5
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 99
+text = "Game Over"
+
+[connection signal="health_depleated" from="Player" to="." method="_on_player_health_depleated"]
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
